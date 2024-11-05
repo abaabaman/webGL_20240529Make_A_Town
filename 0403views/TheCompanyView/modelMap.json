@@ -1,0 +1,557 @@
+{
+    "Factory01": {
+        "type": "glb",
+        "url": "Factory01",
+        "name": "Factory01",
+        "cn_name": "养殖中心01",
+        "door": "bottom",
+        "group": "Factory",
+        "size": 0.7,
+        "option": {
+            "scale": {
+                "z": 0.8
+            },
+            "position": {
+                "x": -170,
+                "z": 5
+            }
+        }
+    },
+    "Factory02": {
+        "type": "glb",
+        "url": "Factory01",
+        "name": "Factory02",
+        "cn_name": "养殖中心02",
+        "door": "bottom",
+        "group": "Factory",
+        "size": 0.7,
+        "option": {
+            "scale": {
+                "z": 0.8
+            },
+            "position": {
+                "x": -170,
+                "z": -45
+            }
+        }
+    },
+    "Factory03": {
+        "type": "glb",
+        "url": "Factory01",
+        "name": "Factory03",
+        "cn_name": "养殖中心03",
+        "door": "left",
+        "group": "Factory",
+        "size": 0.7,
+        "option": {
+            "scale": {
+                "z": 0.8
+            },
+            "rotation": {
+                "y": -0.5
+            },
+            "position": {
+                "x": -80,
+                "z": -110
+            }
+        }
+    },
+    "Factory04": {
+        "type": "glb",
+        "url": "Factory01",
+        "name": "Factory04",
+        "cn_name": "养殖中心04",
+        "door": "left",
+        "group": "Factory",
+        "size": 0.7,
+        "option": {
+            "scale": {
+                "z": 0.8
+            },
+            "rotation": {
+                "y": -0.5
+            },
+            "position": {
+                "x": -30,
+                "z": -95
+            }
+        }
+    },
+    "Factory05": {
+        "type": "glb",
+        "url": "Factory01",
+        "name": "Factory05",
+        "cn_name": "养殖中心05",
+        "door": "left",
+        "group": "Factory",
+        "size": 0.7,
+        "option": {
+            "scale": {
+                "z": 0.8
+            },
+            "rotation": {
+                "y": -0.5
+            },
+            "position": {
+                "x": 60,
+                "z": -45
+            }
+        },
+        "children": [
+            {
+                "index": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                ],
+                "modelList": [
+                    {
+                        "type": "glb",
+                        "level": "floor",
+                        "url": "Factory01_F_a",
+                        "name": "Factory05_F",
+                        "cn_name": "高精养殖管控区域_楼层"
+                    },
+                    {
+                        "type": "glb",
+                        "level": "item",
+                        "url": "Factory01_box",
+                        "name": "box",
+                        "isEmpty": true,
+                        "cn_name": "地面"
+                    },
+                    {
+                        "type": "glb",
+                        "level": "item",
+                        "url": "Factory01_wind",
+                        "name": "wind",
+                        "cn_name": "通风系统"
+                    },
+                    {
+                        "type": "glb",
+                        "level": "item",
+                        "url": "Factory01_light",
+                        "name": "light",
+                        "cn_name": "保温灯光"
+                    },
+                    {
+                        "type": "glb",
+                        "level": "item",
+                        "url": "Factory01_block",
+                        "name": "block",
+                        "cn_name": "智能饲料槽"
+                    },
+                    {
+                        "type": "glb",
+                        "level": "item",
+                        "url": "Factory01_lift",
+                        "name": "lift",
+                        "cn_name": "门禁系统"
+                    }
+                ]
+            }
+        ]
+    },
+    "Factory06": {
+        "type": "glb",
+        "url": "Factory01",
+        "name": "Factory06",
+        "cn_name": "养殖中心06",
+        "door": "left",
+        "group": "Factory",
+        "size": 0.7,
+        "option": {
+            "scale": {
+                "z": 0.8
+            },
+            "rotation": {
+                "y": -0.5
+            },
+            "position": {
+                "x": 115,
+                "z": -45
+            }
+        }
+    },
+    "Office1": {
+        "type": "glb",
+        "url": "Factory01",
+        "name": "Office1",
+        "cn_name": "主行政楼",
+        "door": "bottom",
+        "group": "Office",
+        "size": 0.3,
+        "option": {
+            "scales": 0.45,
+            "scale": {
+                "z": 0.25
+            },
+            "position": {
+                "x": -70,
+                "z": -15
+            }
+        }
+    },
+    "Office2": {
+        "type": "glb",
+        "url": "Factory01",
+        "name": "Office2",
+        "cn_name": "综合楼",
+        "door": "left",
+        "group": "Office",
+        "size": 0.3,
+        "option": {
+            "scales": 0.45,
+            "scale": {
+                "z": 0.25
+            },
+            "rotation": {
+                "y": -0.5
+            },
+            "position": {
+                "x": -82,
+                "z": -27
+            }
+        }
+    },
+    "Office3": {
+        "type": "glb",
+        "url": "Factory01",
+        "name": "Office3",
+        "cn_name": "医疗护理中心(员工健康管理处)",
+        "door": "left",
+        "size": 0.2,
+        "group": "Office",
+        "option": {
+            "scales": 0.35,
+            "rotation": {
+                "y": -0.5
+            },
+            "position": {
+                "x": -90,
+                "z": -21
+            }
+        }
+    },
+    "Dormitory1": {
+        "type": "glb",
+        "url": "Factory01",
+        "name": "Dormitory1",
+        "cn_name": "养殖员:固定宿舍",
+        "door": "bottom",
+        "group": "Dormitory",
+        "size": 0.5,
+        "option": {
+            "scales": 0.65,
+            "scale": {
+                "y": 0.3,
+                "z": 0.25
+            },
+            "position": {
+                "x": -30,
+                "z": -5
+            }
+        }
+    },
+    "Dormitory2": {
+        "type": "glb",
+        "url": "Factory01",
+        "name": "Dormitory2",
+        "cn_name": "护理人员宿舍HLSS",
+        "door": "bottom",
+        "group": "Dormitory",
+        "size": 0.3,
+        "option": {
+            "scale": {
+                "x": 0.12,
+                "y": 0.12,
+                "z": 0.15
+            },
+            "position": {
+                "x": -15,
+                "z": 20
+            }
+        }
+    },
+    "Dormitory3": {
+        "type": "glb",
+        "url": "Factory01",
+        "name": "Dormitory3",
+        "cn_name": "养殖员:流动隔离间",
+        "door": "bottom",
+        "group": "Dormitory",
+        "size": 0.3,
+        "option": {
+            "scale": {
+                "x": 0.12,
+                "y": 0.12,
+                "z": 0.15
+            },
+            "position": {
+                "x": -15,
+                "z": 8
+            }
+        }
+    },
+    "Clear01": {
+        "type": "glb",
+        "url": "Factory01",
+        "name": "Clear01",
+        "cn_name": "消毒站:设备编号XDZ0001",
+        "door": "left",
+        "group": "Clear",
+        "size": 0.1,
+        "option": {
+            "scales": 0.15,
+            "scale": {
+                "z": 0.15
+            },
+            "rotation": {
+                "y": -0.5
+            },
+            "position": {
+                "x": 25,
+                "z": 65
+            }
+        }
+    },
+    "Clear02": {
+        "type": "glb",
+        "url": "Factory01",
+        "name": "Clear02",
+        "cn_name": "消毒站:设备编号XDZ0002",
+        "door": "left",
+        "group": "Clear",
+        "size": 0.1,
+        "option": {
+            "scales": 0.15,
+            "scale": {
+                "z": 0.15
+            },
+            "rotation": {
+                "y": -0.5
+            },
+            "position": {
+                "x": 45,
+                "z": 65
+            }
+        }
+    },
+    "Clear03": {
+        "type": "glb",
+        "url": "Factory01",
+        "name": "Clear03",
+        "cn_name": "消毒站:设备编号XDZ0003",
+        "door": "left",
+        "group": "Clear",
+        "size": 0.1,
+        "option": {
+            "scales": 0.15,
+            "scale": {
+                "z": 0.15
+            },
+            "rotation": {
+                "y": -0.5
+            },
+            "position": {
+                "x": 25,
+                "z": 85
+            }
+        }
+    },
+    "Clear04": {
+        "type": "glb",
+        "url": "Factory01",
+        "name": "Clear04",
+        "cn_name": "消毒站:设备编号XDZ0004",
+        "door": "left",
+        "group": "Clear",
+        "size": 0.1,
+        "option": {
+            "scales": 0.15,
+            "scale": {
+                "z": 0.15
+            },
+            "rotation": {
+                "y": -0.5
+            },
+            "position": {
+                "x": 45,
+                "z": 85
+            }
+        }
+    },
+    "Power01": {
+        "type": "glb",
+        "url": "Factory01",
+        "name": "Power01",
+        "cn_name": "独立能源供给中心FDZ0001",
+        "door": "left",
+        "group": "Power",
+        "size": 0.6,
+        "option": {
+            "scales": 0.6,
+            "scale": {
+                "x": 0.12,
+                "z": 0.3
+            },
+            "rotation": {
+                "y": -0.5
+            },
+            "position": {
+                "x": 120,
+                "z": 46
+            }
+        }
+    },
+    "Power02": {
+        "type": "glb",
+        "url": "Factory01",
+        "name": "Power02",
+        "cn_name": "独立能源供给中心F(值班宿舍)",
+        "door": "left",
+        "group": "Power",
+        "size": 0.4,
+        "option": {
+            "scales": 0.6,
+            "scale": {
+                "z": 0.7
+            },
+            "rotation": {
+                "y": -0.5
+            },
+            "position": {
+                "x": 120,
+                "z": 75
+            }
+        }
+    },
+    "Power03": {
+        "type": "cylinder",
+        "name": "Power03",
+        "cn_name": "发电组:设备编号FDZ0003",
+        "group": "Power",
+        "size": 0.2,
+        "option": {
+            "position": {
+                "x": 127,
+                "z": 30
+            }
+        },
+        "geometryOption": {
+            "cylinder": {
+                "radius": 6,
+                "height": 3
+            }
+        }
+    },
+    "Power04": {
+        "type": "cylinder",
+        "name": "Power04",
+        "cn_name": "发电组:设备编号FDZ0004",
+        "group": "Power",
+        "size": 0.2,
+        "option": {
+            "rotation": {
+                "x": 0.5,
+                "z": 0.5
+            },
+            "position": {
+                "x": 127,
+                "z": 40
+            }
+        },
+        "geometryOption": {
+            "cylinder": {
+                "radius": 2,
+                "height": 12
+            }
+        }
+    },
+    "Power05": {
+        "type": "cylinder",
+        "name": "Power05",
+        "cn_name": "发电组:设备编号FDZ0005",
+        "group": "Power",
+        "size": 0.2,
+        "option": {
+            "position": {
+                "x": 147,
+                "z": 30
+            }
+        },
+        "geometryOption": {
+            "cylinder": {
+                "radius": 6,
+                "height": 3
+            }
+        }
+    },
+    "Power06": {
+        "type": "cylinder",
+        "name": "Power06",
+        "cn_name": "发电组:设备编号FDZ0006",
+        "group": "Power",
+        "size": 0.2,
+        "option": {
+            "position": {
+                "x": 147,
+                "z": 46
+            }
+        },
+        "geometryOption": {
+            "cylinder": {
+                "radius": 6,
+                "height": 3
+            }
+        }
+    },
+    "Power07": {
+        "type": "cylinder",
+        "name": "Power07",
+        "cn_name": "设备编号FDZ0007",
+        "group": "Power",
+        "size": 0.2,
+        "option": {
+            "rotation": {
+                "x": 0.5,
+                "z": 0.5
+            },
+            "position": {
+                "x": 147,
+                "z": 60
+            }
+        },
+        "geometryOption": {
+            "cylinder": {
+                "radius": 2,
+                "height": 12
+            }
+        }
+    },
+    "Power08": {
+        "type": "cylinder",
+        "name": "Power08",
+        "cn_name": "设备编号FDZ0008",
+        "group": "Power",
+        "size": 0.2,
+        "option": {
+            "rotation": {
+                "x": 0.5,
+                "z": 0.5
+            },
+            "position": {
+                "x": 147,
+                "z": 68
+            }
+        },
+        "geometryOption": {
+            "cylinder": {
+                "radius": 2,
+                "height": 12
+            }
+        }
+    }
+}
