@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: false
 # navbar: false
 editLink: false
 sidebar: false
@@ -8,5 +8,5 @@ sidebar: false
 <against />
 
 <script setup>
-  import against from './view/against/index.vue';
+  import against from './view/against/home.vue';
 </script>
