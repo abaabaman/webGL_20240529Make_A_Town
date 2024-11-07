@@ -1,77 +1,8 @@
 <script setup lang="ts">
-import { ElMessageBox } from "element-plus";
-import userChoice from "./userChoice.vue";
-import FightView from "./FightView.vue";
-import { ref, onUnmounted } from "vue";
-const user = ref(-1);
-// const users = ["刘德华", "张学友", "黎明", "郭富城"];
-const ready = ref(false);
-const dealer = ref(true);
-const present = ref([]);
-const msg = ref([]);
-const msgAdd = (e) => {
-  msg.value.push(e);
-  setTimeout(() => {
-    msg.value.shift();
-  }, 2000);
-};
-// '发牌'|'出题'|'答题'|'评分'
-const turnAct = ref<{
-  turn: number;
-  state: "card" | "question" | "answer" | "appraise";
-} | null>(null);
-const turnNext = () => {
-  if (!turnAct.value) {
-    turnAct.value = { turn: 0, state: "card" };
-    webSocket.send(`turn=${turnAct.value.turn}&state=${turnAct.value.state}`);
-  }
-};
-const webSocket = new WebSocket(`ws://localhost:5555`);
-webSocket.onmessage = function ({ data }) {
-  const res = Object.fromEntries(data.split("&").map((e) => e.split("=")));
-  console.log(res);
-  if (res.users) {
-    console.log(res.users);
-    present.value = [...new Set(res.users.split(",").filter((e) => e))];
-  }
-  if (res.msg) {
-    msgAdd(res.msg);
-  }
-  if (res.lifecycle) {
-    setTimeout(() => {
-      if (res.lifecycle === "ready") {
-        msgAdd("四大天王到齐了");
-        ready.value = true;
-        dealer.value = false;
-      }
-      if (res.lifecycle === "resume") {
-        msgAdd("对局人数大于2,继续战斗");
-      }
-      if (res.lifecycle === "voer") {
-        ready.value = false;
-        dealer.value = true;
-        msgAdd(" 剩余人数少于2,流局");
-      }
-    }, 1200);
-  }
-};
-
-// webSocket.readyState链接状态
-const choiceUser = (i) => {
-  user.value = i;
-  webSocket.send("user=" + i);
-  turnNext();
-};
-onUnmounted(() => webSocket.send("lifecycle=close"));
+import userVote from "./userVote.vue";
 </script>
 <template>
-  <user-choice :choiceUser="choiceUser" :disableds="present" />
-  <FightView
-    :userData="{ user }"
-    :memberData="{ present }"
-    :ready="ready"
-    :msg="msg"
-  />
+  <user-vote />
 </template>
 
 <style scoped></style>
