@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-const timer = 3;
+const timer = 3; // 倒计时
 const lastTime = ref(timer);
-const btnStatus = ref<"load" | "ok" | "abandon" | "finsh">("load");
-const warpStatus = ref<"come" | "out">("come");
-const balckCard = ref("如果在课堂上_的话学校生活就结束了");
-const cardList = ref([["吃华莱士"], ["暗杀刘波"], ["出卖斯大林"], ["城墙"]]);
-const cardChoose = ref(-1);
+const btnStatus = ref<"load" | "ok" | "abandon" | "finsh">("load"); // 投票状态
+const warpStatus = ref<"come" | "out">("come"); // 展示投票窗口
+const balckCard = ref("如果在课堂上_的话学校生活就结束了"); // 黑卡
+const cardList = ref([["吃华莱士"], ["暗杀刘波"], ["出卖斯大林"], ["城墙"]]); // 白卡组
+const cardChoose = ref(-1); // 投票给谁
 onMounted(() => {
   setInterval(() => {
     if (btnStatus.value === "load" && lastTime.value < 1) {
@@ -43,10 +43,10 @@ const chooseConfirm = () => {
         :class="cardChoose === i && btnStatus !== 'abandon' ? 'chose' : ''"
         @click="chooseCard(i)"
       >
-        <div v-for="(sentence, i) in balckCard.split('_')">
+        <span v-for="(sentence, i) in balckCard.split('_')">
           <span>{{ sentence }}</span>
           <span class="keyword" v-if="card[i]">{{ card[i] }}</span>
-        </div>
+        </span>
         <div class="winner" v-if="cardChoose === i && btnStatus === 'finsh'">
           刘德华 +1
         </div>

@@ -62,13 +62,13 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
 };
 
 // 如果有上次的玩家名，则自动进入游戏
-onMounted(() => {
-  if (lastPlayerName.value) {
-    visible.value = false;
-    store.player.name = form.name;
-    store.isSignIn = true;
-  }
-});
+// onMounted(() => {
+//   if (lastPlayerName.value) {
+//     visible.value = false;
+//     store.player.name = form.name;
+//     store.isSignIn = true;
+//   }
+// });
 </script>
 <style scoped>
 .sign-form {
