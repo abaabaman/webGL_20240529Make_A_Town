@@ -33,7 +33,7 @@
 import { FormInstance } from "element-plus";
 import { ref, reactive, onMounted } from "vue";
 import { useStorage } from "@vueuse/core";
-import { useCardStore } from './cardStore'
+import { useCardStore } from "./cardStore";
 
 // 卡牌全局数据
 const store = useCardStore();

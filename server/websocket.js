@@ -11,7 +11,10 @@ axios({
     url: `${BASE_URL}/play_card_get.php`,
     method: "get",
 })
-    .then((e) => list = e);
+    .then((e) => {
+        // console.log(e)
+        list = e;
+    });
 
 const everyoneSend = (msg = '') => {
     console.log(msg);

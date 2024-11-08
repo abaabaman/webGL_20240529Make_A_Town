@@ -8,5 +8,5 @@ sidebar: false
 <against />
 
 <script setup>
-  import against from './view/against/home.vue';
+  import against from './view/against/index.vue';
 </script>
