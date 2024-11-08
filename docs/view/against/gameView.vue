@@ -35,29 +35,60 @@
     <div class="game-bottom">
       <div class="white-card-wrap">
         <div
-          v-for="whiteCard in store.whiteCardList"
+          v-for="whiteCard in whiteCardList"
           key="card.id"
-          class="white-card"
+          :class="[
+            'white-card',
+            {
+              'white-card-sel': playCards.find(
+                (card) => card.id === whiteCard.id
+              ),
+              'white-card-nohover': isFull,
+            },
+          ]"
+          @click="clickCard(whiteCard)"
         >
           {{ whiteCard.text }}
           <Icons icon="white" />
         </div>
       </div>
       <div class="ready-btn-wrap">
-        <div class="ready-btn">出牌</div>
+        <div class="ready-btn" @click="play">出牌</div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { ref, reactive, onUnmounted, onMounted } from "vue";
+import { ref, reactive, onUnmounted, onMounted, computed } from "vue";
 import { useCardStore } from "./cardStore";
 import { storeToRefs } from "pinia";
 import Icons from "./icons.vue";
 
 // 卡牌全局数据
 const store = useCardStore();
-const { playerList } = storeToRefs(store);
+const { playerList, blackCard, whiteCardList } = storeToRefs(store);
+
+// 出牌数组
+const playCards = ref([]);
+// 是否选了足够的牌
+const isFull = computed(() => playCards.value.length >= blackCard.value.space);
+
+// 选牌
+const clickCard = (card) => {
+  const index = playCards.value.findIndex((el) => el.id === card.id);
+  if (index === -1) {
+    // 当前卡牌未选中
+    !isFull.value && playCards.value.push(card);
+  } else {
+    playCards.value[index] = undefined;
+    playCards.value = playCards.value.filter((el) => el !== undefined);
+  }
+};
+
+// 出牌
+const play = () => {
+  alert("出牌：" + playCards.value.map((card) => card.text).join(" - "));
+};
 </script>
 
 <style scoped>
@@ -192,7 +223,17 @@ const { playerList } = storeToRefs(store);
   transition: all 0.3s ease;
   transform: translateY(0);
   &:hover {
-    transform: translateY(-16px);
+    transform: translateY(-24px);
+  }
+  &.white-card-nohover {
+    cursor: default;
+    &:hover {
+      transform: translateY(0);
+    }
+  }
+  &.white-card-sel {
+    cursor: pointer !important;
+    transform: translateY(-24px) !important;
   }
 }
 /* 准备按钮 */

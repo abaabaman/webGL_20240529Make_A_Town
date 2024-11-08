@@ -49,6 +49,7 @@ export const useCardStore = defineStore("card", () => {
   const blackCard = ref({
     id: 1,
     text: "国王要替一位公主征婚，你决定让 ____ ____。",
+    space: 2,
   });
 
   // 白卡牌
