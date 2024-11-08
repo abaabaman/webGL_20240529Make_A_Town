@@ -9,9 +9,11 @@
     "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
+    "@vueuse/core": "^11.2.0",
     "axios": "^1.7.2",
     "element-plus": "^2.7.4",
     "nodejs-websocket": "^1.7.2",
+    "pinia": "^2.2.6",
     "three": "^0.164.1"
   }
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-const timer = 30;
+const timer = 3;
 const lastTime = ref(timer);
 const btnStatus = ref<"load" | "ok" | "abandon" | "finsh">("load");
 const warpStatus = ref<"come" | "out">("come");
@@ -69,13 +69,15 @@ const chooseConfirm = () => {
 
 <style scoped>
 .warp {
-  position: relative;
+  position: absolute;
+  background-color: #fff;
   border: 5px solid #222;
   outline: 5px solid #ccc;
   border-top: none;
   width: 1600px;
   padding: 40px 0 130px;
-  margin: auto;
+  top: 0;
+  left: calc(50% - 800px);
   &.come {
     animation: come 1s;
   }
