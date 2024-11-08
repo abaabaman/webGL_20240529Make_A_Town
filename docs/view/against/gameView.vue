@@ -63,6 +63,7 @@ import { ref, reactive, onUnmounted, onMounted, computed } from "vue";
 import { useCardStore } from "./cardStore";
 import { storeToRefs } from "pinia";
 import Icons from "./icons.vue";
+const { showVote } = defineProps(["showVote"]);
 
 // 卡牌全局数据
 const store = useCardStore();
@@ -87,7 +88,8 @@ const clickCard = (card) => {
 
 // 出牌
 const play = () => {
-  alert("出牌：" + playCards.value.map((card) => card.text).join(" - "));
+  // alert("出牌：" + playCards.value.map((card) => card.text).join(" - "));
+  showVote();
 };
 </script>
 

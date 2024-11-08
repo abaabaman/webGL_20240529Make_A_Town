@@ -2,16 +2,20 @@
   <SignBox />
   <div class="table-wrap" v-if="store.isSignIn">
     <div class="table">
-      <GameView />
+      <GameView :showVote="() => (isShowVote = true)" />
+      <user-vote v-if="isShowVote" />
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import userVote from "./userVote.vue";
 import SignBox from "./signBox.vue";
 import GameView from "./gameView.vue";
 import { ref, onUnmounted, onMounted } from "vue";
 // import { useDark, useToggle } from "@vueuse/core";
 import { useCardStore } from "./cardStore";
+
+const isShowVote = ref<boolean>(false);
 
 // // 进入黑暗模式
 // const isDark = useDark();
