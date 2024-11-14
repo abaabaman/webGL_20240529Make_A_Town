@@ -14,7 +14,7 @@ let round = 0;  // 当前回合
 let ready = false;  // 是否进行游戏中
 let chooseNum = 0; // 当前回合完成选择的人数
 const userList = () => Object.keys(list_userOrWrite);
-const userScore = () => Object.keys(list_userOrWrite).map(e => ({ name: e, score: list_userOrWrite[e].score, isReady: false }))
+const userScore = () => Object.keys(list_userOrWrite).map(e => ({ name: e, score: list_userOrWrite[e].score, isReady: list_userOrWrite[e].isReady }))
 
 const send = (data, config) => {
     server.connections.forEach(item => {
@@ -44,6 +44,7 @@ const startGame = () => {
                 list_userOrWrite[e] = {
                     cards: init_list_white.filter((_, j) => j % userList().length === i),
                     score: 0,
+                    isReady: false,
                 };
             });
         });
@@ -89,14 +90,18 @@ const server = ws.createServer(conn => {
             case 'done': {
                 // 出牌
                 const { name, cards } = res;
+                list_black[round].white[name] = cards;
+
+                // 补充手牌
                 let nowCard = list_userOrWrite[name].cards;
                 nowCard = nowCard.filter(e => !cards.map(e => e.id).includes(e.id));
                 nowCard = nowCard.concat(list_white.slice(0, cards.length));
                 list_white = list_white.slice(cards.length);
                 list_userOrWrite[name].cards = nowCard;
-                console.log('新的卡组', nowCard);
 
-                list_black[round].white[name] = cards;
+                list_userOrWrite[name].isReady = true;
+                send({ action: "done", round, userList: userScore() });
+
                 if (Object.keys(list_black[round].white).length !== userList().length) return;  // 出牌未结束，不投票
                 // TODO：倒计时结束，也开始投票
                 send({ action: "vote", round, black: list_black[round] });
@@ -109,13 +114,16 @@ const server = ws.createServer(conn => {
                 const score = list_black[round].score;
                 if (choose) score[choose] = score[choose] ? score[choose] + 1 : 1;
                 chooseNum++;
-                if (chooseNum !== Object.keys(list_userOrWrite).length) return;
+                if (chooseNum !== userList().length) return;
                 console.log('所有人完成选择');
 
                 // 计算得分
                 Object.keys(score).sort()
                 const sort = Object.keys(score).sort((a, b) => (score[b] - score[a]));
                 const winner = sort.filter(user => score[user] === score[sort[0]]);
+                winner.forEach(user => {
+                    list_userOrWrite[user].score += 1;
+                })
 
                 // 进入下一回合
                 round++;

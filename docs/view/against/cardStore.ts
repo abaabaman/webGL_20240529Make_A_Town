@@ -86,7 +86,7 @@ webSocket.onmessage = function ({ data }) {
   const { action, round, userList, isSign, isEnd, black, cards, leaveOne, winner } = JSON.parse(data);
 
   switch (action) {
-    case 'sign': {
+    case 'sign': {  // 登录
       console.log('sign', userList);
       if (isSign) {
         isShowSign.value = false;
@@ -104,20 +104,25 @@ webSocket.onmessage = function ({ data }) {
     case "leave": {
       // TODO: 处理掉线的玩家
       console.log(leaveOne);
+      break;
     }
-    case 'vote': {
+    case 'done': {  // 出完牌
+      playerList.value = userList;
+      break;
+    }
+    case 'vote': {  // 投票
       isShowVote.value = true;
       whiteVoteMap.value = black.white;
       voteStatus.value = "load";
       break;
     };
-    case 'start': {
+    case 'start': {  // 开始游戏
       playerList.value = userList;
       blackCard.value = black;
       whiteCardList.value = cards;
       break
     };
-    case 'next': {
+    case 'next': {  // 下一轮
       winnerList.value = winner;
       voteStatus.value = "finsh";
       if (isEnd) return;
