@@ -1,68 +1,92 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-const timer = 3; // 倒计时
+import { storeToRefs } from "pinia";
+import { useCardStore } from "./cardStore.ts";
+const store = useCardStore();
+const { player, playerList, blackCard, whiteVoteMap, winnerList, voteStatus } =
+  storeToRefs(store);
+const timer = 50; // 倒计时
 const lastTime = ref(timer);
-const btnStatus = ref<"load" | "ok" | "abandon" | "finsh">("load"); // 投票状态
-const warpStatus = ref<"come" | "out">("come"); // 展示投票窗口
-const balckCard = ref("如果在课堂上_的话学校生活就结束了"); // 黑卡
-const cardList = ref([["吃华莱士"], ["暗杀刘波"], ["出卖斯大林"], ["城墙"]]); // 白卡组
-const cardChoose = ref(-1); // 投票给谁
+// const btnStatus = ref<"load" | "ok" | "abandon" | "finsh">("load"); // 投票状态
+// const warpStatus = ref<"come" | "out">("come"); // 展示投票窗口
+// const blackCard = ref("如果在课堂上_的话学校生活就结束了"); // 黑卡
+
+const cardStatus = () => {
+  // winnerList
+};
+
+const cardChoose = ref(""); // 投票给谁
 onMounted(() => {
+  // 弃权
   setInterval(() => {
-    if (btnStatus.value === "load" && lastTime.value < 1) {
-      btnStatus.value = "abandon";
+    if (voteStatus.value === "load" && lastTime.value < 1) {
+      voteStatus.value = "abandon";
+      const data = {
+        action: "vote",
+        name: player.value.name,
+      };
+      store.send(data);
       return;
     }
     lastTime.value = lastTime.value - 1;
   }, 1000);
-  setTimeout(() => {
-    // TODO: 离场时间
-    console.log("时间到");
-    btnStatus.value = "finsh";
-  }, (timer + 2) * 1000);
-  setTimeout(() => {
-    warpStatus.value = "out";
-  }, (timer + 5) * 1000);
 });
-const chooseCard = (i) => {
-  if (["ok", "finsh"].includes(btnStatus.value)) return;
-  cardChoose.value = i;
+const chooseCard = (user) => {
+  if (["ok", "finsh"].includes(voteStatus.value)) return;
+  cardChoose.value = user;
 };
 const chooseConfirm = () => {
-  if (cardChoose.value === -1) return;
-  btnStatus.value = "ok";
+  if (cardChoose.value === "") return;
+  voteStatus.value = "ok";
+  console.log(whiteVoteMap.value);
+
+  const data = {
+    action: "vote",
+    name: player.value.name,
+    choose: cardChoose.value,
+  };
+  store.send(data);
   // TODO: 上传
 };
 </script>
 <template>
-  <div class="warp" :class="warpStatus">
+  <div class="warp" :class="voteStatus">
     <div class="cardList">
       <div
-        v-for="(card, i) in cardList"
+        v-for="(user, i) in Object.keys(whiteVoteMap)"
         class="card"
-        :class="cardChoose === i && btnStatus !== 'abandon' ? 'chose' : ''"
-        @click="chooseCard(i)"
+        :class="[
+          cardChoose === user && voteStatus !== 'abandon' ? 'chose' : '',
+          winnerList.includes(user) && voteStatus === 'finsh' ? 'winner' : '',
+        ]"
+        @click="chooseCard(user)"
       >
-        <span v-for="(sentence, i) in balckCard.split('_')">
+        <!-- {{ whiteVoteMap[user] }} -->
+        <span v-for="(sentence, i) in blackCard.text.split('_')">
           <span>{{ sentence }}</span>
-          <span class="keyword" v-if="card[i]">{{ card[i] }}</span>
+          <span class="keyword" v-if="whiteVoteMap[user][i]">{{
+            whiteVoteMap[user][i].text
+          }}</span>
         </span>
-        <div class="winner" v-if="cardChoose === i && btnStatus === 'finsh'">
-          刘德华 +1
+        <div
+          class="winner"
+          v-if="winnerList.includes(user) && voteStatus === 'finsh'"
+        >
+          {{ user }} +1
         </div>
       </div>
     </div>
     <div
-      v-if="btnStatus === 'load'"
+      v-if="voteStatus === 'load'"
       class="button load"
-      :class="cardChoose === -1 && 'notAllowed'"
+      :class="cardChoose === '' && 'notAllowed'"
       @click="chooseConfirm"
     >
       投票 ({{ lastTime }})
     </div>
-    <div class="button" :class="btnStatus" v-else-if="btnStatus !== 'finsh'">
-      {{ btnStatus === "abandon" ? "放弃投票!" : "" }}
-      {{ btnStatus === "ok" ? "完成投票!" : "" }}
+    <div class="button" :class="voteStatus" v-else-if="voteStatus !== 'finsh'">
+      {{ voteStatus === "abandon" ? "放弃投票!" : "" }}
+      {{ voteStatus === "ok" ? "完成投票!" : "" }}
     </div>
   </div>
 </template>
@@ -78,11 +102,11 @@ const chooseConfirm = () => {
   padding: 40px 0 130px;
   top: 0;
   left: calc(50% - 800px);
-  &.come {
+  &.load {
     animation: come 1s;
   }
-  &.out {
-    animation: out 1s both;
+  &.finsh {
+    animation: out 1s 2.5s both;
   }
 }
 
@@ -105,7 +129,6 @@ const chooseConfirm = () => {
   font-size: 22px;
   cursor: pointer;
   &.chose {
-    box-shadow: 0 0 12px 5px #f9e639;
     border: 4px solid #ffb253;
   }
   & .keyword {
@@ -113,6 +136,16 @@ const chooseConfirm = () => {
     font-weight: bold;
     padding: 0 8px;
     border-bottom: 1px solid #fff;
+  }
+  &.winner {
+    background-color: #fff;
+    color: #222;
+  }
+  &.winner .keyword {
+    color: #222;
+    font-weight: bold;
+    padding: 0 8px;
+    border-bottom: 1px solid #222;
   }
   .winner {
     position: absolute;

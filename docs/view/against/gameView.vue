@@ -4,11 +4,7 @@
       <!-- 玩家列表 -->
       <div class="player-list-wrap">
         <div class="player-list">
-          <div
-            v-for="player in playerList"
-            :key="player.id"
-            class="player-item"
-          >
+          <div v-for="(player, i) in playerList" :key="i" class="player-item">
             <div
               :class="player.isReady ? 'player-ready' : 'player-noready'"
             ></div>
@@ -20,7 +16,26 @@
       <!-- 黑卡牌 -->
       <div class="black-card-wrap">
         <div class="black-card">
-          {{ store.blackCard.text }}
+          {{
+            store.blackCard.text
+              .split("_")
+              .map((e, i) =>
+                i !== store.blackCard.text.split("_").length - 1
+                  ? e + ` ${playCards[i]?.text || "____"} `
+                  : e
+              )
+              .join("")
+          }}
+          <!-- 有下划线版本 -->
+          <!-- <span v-for="(text, index) in store.blackCard.text.split('_')">
+            {{ text }}
+            <span
+              v-if="index !== store.blackCard.text.split('_').length - 1"
+              class="keyword"
+              :class="playCards[index]?.text ? '' : 'empty'"
+              >{{ playCards[index]?.text || "" }}</span
+            >
+          </span> -->
           <Icons icon="black" />
         </div>
       </div>
@@ -32,6 +47,7 @@
         <div class="timer">倒计时&emsp;{{ store.timer }}</div>
       </div>
     </div>
+    <!-- 白卡牌 -->
     <div class="game-bottom">
       <div class="white-card-wrap">
         <div
@@ -53,24 +69,26 @@
         </div>
       </div>
       <div class="ready-btn-wrap">
-        <div class="ready-btn" @click="play">出牌</div>
+        <div class="ready-btn" :class="isDoneCard ? 'done' : ''" @click="play">
+          出牌
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { ref, reactive, onUnmounted, onMounted, computed } from "vue";
-import { useCardStore } from "./cardStore";
+import { useCardStore } from "./cardStore.ts";
 import { storeToRefs } from "pinia";
 import Icons from "./icons.vue";
-const { showVote } = defineProps(["showVote"]);
+// const webSocket = new WebSocket(`ws://localhost:5555`);
+// const send = (data) => webSocket.send(JSON.stringify(data));
 
 // 卡牌全局数据
 const store = useCardStore();
-const { playerList, blackCard, whiteCardList } = storeToRefs(store);
+const { player, playCards, playerList, isDoneCard, blackCard, whiteCardList } =
+  storeToRefs(store);
 
-// 出牌数组
-const playCards = ref([]);
 // 是否选了足够的牌
 const isFull = computed(() => playCards.value.length >= blackCard.value.space);
 
@@ -88,9 +106,24 @@ const clickCard = (card) => {
 
 // 出牌
 const play = () => {
+  if (isDoneCard.value) return;
+  const data = {
+    action: "done",
+    name: player.value.name,
+    cards: playCards.value,
+  };
+  isDoneCard.value = true;
+  store.send(data);
   // alert("出牌：" + playCards.value.map((card) => card.text).join(" - "));
-  showVote();
+  // showVote();
 };
+
+// onMounted(() => {
+//   // 临时使用，开始游戏
+//   setTimeout(() => {
+//     store.send({ name: "张学友", action: "start" });
+//   }, 50);
+// });
 </script>
 
 <style scoped>
@@ -183,6 +216,17 @@ const play = () => {
     font-size: 20px;
     line-height: 1.5;
   }
+
+  /* 有下划线版本，方案暂定 */
+  /* .keyword {
+    display: inline-block;
+    border-bottom: 2px solid white;
+    padding: 0 4px;
+  }
+  .empty {
+    transform: translateY(10px);
+    width: 36px;
+  } */
 }
 /* 回合数 */
 .round-wrap {
@@ -258,10 +302,14 @@ const play = () => {
     border: 8px solid white;
     cursor: pointer;
     transition: all 0.3s ease;
+    &.done,
     &:hover {
       border: 8px solid black;
       background-color: white;
       color: black;
+    }
+    &.done {
+      cursor: default;
     }
   }
 }

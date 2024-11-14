@@ -1,9 +1,9 @@
 <template>
   <SignBox />
-  <div class="table-wrap" v-if="store.isSignIn">
+  <div class="table-wrap" v-if="!store.isShowSign">
     <div class="table">
-      <GameView :showVote="() => (isShowVote = true)" />
-      <user-vote v-if="isShowVote" />
+      <GameView />
+      <user-vote v-if="store.isShowVote" />
     </div>
   </div>
 </template>
@@ -13,9 +13,9 @@ import SignBox from "./signBox.vue";
 import GameView from "./gameView.vue";
 import { ref, onUnmounted, onMounted } from "vue";
 // import { useDark, useToggle } from "@vueuse/core";
-import { useCardStore } from "./cardStore";
+import { useCardStore } from "./cardStore.ts";
 
-const isShowVote = ref<boolean>(false);
+// const isShowVote = ref<boolean>(false);
 
 // // 进入黑暗模式
 // const isDark = useDark();
@@ -36,6 +36,32 @@ onUnmounted(() => {
   document.removeEventListener("contextmenu", menuFn);
   document.removeEventListener("selectstart", menuFn);
 });
+
+const 后台内容 = {
+  玩家信息: {
+    刘德华: {
+      总得分: 2,
+      总冠军次: 3,
+      白卡: ["xxx", "xxx", "xxx"],
+    },
+    张学友: {
+      总得分: 2,
+      总冠军次: 3,
+      白卡: ["xxx", "xxx", "xxx"],
+    },
+  },
+  黑卡: [
+    // 每回合一个对象
+    {
+      id: "id",
+      text: "text", // 文字
+      space: 1, // 卡次数量
+      white: { 刘德华: ["xxx"], 张学友: ["xxx"] }, // 这回合每个人出的牌
+      得票数: { 刘德华: 1, 张学友: 3, 黎明: 3 },
+      赢家: ["刘德华", "张学友"],
+    },
+  ],
+};
 </script>
 
 <style scoped>
@@ -45,7 +71,7 @@ onUnmounted(() => {
   padding: 18px 20px;
   text-align: center;
   overflow: hidden;
-  background-color: black;
+  background-color: #999;
   .table {
     width: 100%;
     height: 100%;

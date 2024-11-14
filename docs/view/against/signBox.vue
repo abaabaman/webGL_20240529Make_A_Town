@@ -1,12 +1,13 @@
 <template>
   <el-dialog
-    v-model="visible"
+    v-model="store.isShowSign"
     width="500"
     :show-close="false"
     :close-on-click-modal="false"
     align-center
   >
     <el-form ref="ruleFormRef" :model="form" @submit.prevent class="sign-form">
+      <span class="rule-tip">{{ store.isShowRule ? "爱称被占用" : "" }}</span>
       <el-form-item
         label="你的名称"
         required
@@ -33,12 +34,12 @@
 import { FormInstance } from "element-plus";
 import { ref, reactive, onMounted } from "vue";
 import { useStorage } from "@vueuse/core";
-import { useCardStore } from "./cardStore";
+import { useCardStore } from "./cardStore.ts";
 
 // 卡牌全局数据
 const store = useCardStore();
 
-const visible = ref(true);
+// const visible = ref(true);
 
 // 曾用名
 const lastPlayerName = useStorage("last-player-name", "");
@@ -53,22 +54,27 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      visible.value = false;
       lastPlayerName.value = form.name;
       store.player.name = form.name;
-      store.isSignIn = true;
+      // visible.value = false;
+      // store.player.id = Date.now(); // 时间戳id
+      // store.isSignIn = true;
+      store.send({
+        action: "sign",
+        name: form.name,
+      });
     }
   });
 };
 
 // 如果有上次的玩家名，则自动进入游戏
-// onMounted(() => {
-//   if (lastPlayerName.value) {
-//     visible.value = false;
-//     store.player.name = form.name;
-//     store.isSignIn = true;
-//   }
-// });
+onMounted(() => {
+  if (lastPlayerName.value) {
+    // visible.value = false;
+    // store.player.name = form.name;
+    // store.isSignIn = true;
+  }
+});
 </script>
 <style scoped>
 .sign-form {
@@ -78,6 +84,13 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
   .sign-btn {
     width: 120px;
     height: 40px;
+  }
+  .rule-tip {
+    color: #934;
+    position: absolute;
+    top: 8px;
+    left: 160px;
+    font-size: 14px;
   }
 }
 </style>
