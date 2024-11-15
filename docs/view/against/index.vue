@@ -4,12 +4,14 @@
     <div class="table">
       <GameView />
       <user-vote v-if="store.isShowVote" />
+      <ReadyBox v-if="store.isShowReady" />
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import userVote from "./userVote.vue";
 import SignBox from "./signBox.vue";
+import ReadyBox from "./readyBox.vue";
 import GameView from "./gameView.vue";
 import { ref, onUnmounted, onMounted } from "vue";
 // import { useDark, useToggle } from "@vueuse/core";

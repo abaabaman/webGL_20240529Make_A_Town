@@ -16,6 +16,7 @@ let chooseNum = 0; // 当前回合完成选择的人数
 const userList = () => Object.keys(list_userOrWrite);
 const userScore = () => Object.keys(list_userOrWrite).map(e => ({ name: e, score: list_userOrWrite[e].score, isReady: list_userOrWrite[e].isReady }))
 
+// 交互
 const send = (data, config) => {
     server.connections.forEach(item => {
         console.log(item.userName, '发牌');
@@ -83,7 +84,7 @@ const server = ws.createServer(conn => {
                             userList: userScore(),
                         }
                         send(data, 'sendCard');
-                    }, 100);
+                    }, 200);
                 }
                 break;
             }
@@ -124,6 +125,7 @@ const server = ws.createServer(conn => {
                 winner.forEach(user => {
                     list_userOrWrite[user].score += 1;
                 })
+                userList().forEach(user => list_userOrWrite[user].isReady = false)
 
                 // 进入下一回合
                 round++;
@@ -131,7 +133,7 @@ const server = ws.createServer(conn => {
                 const data = {
                     action: "next",
                     round,
-                    isEnd: round + 1 >= SUM_ROUNDS,
+                    isEnd: round + 1 > SUM_ROUNDS,
                     winner,
                     black: list_black[round],
                     userList: userScore(),

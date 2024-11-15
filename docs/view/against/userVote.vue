@@ -3,17 +3,15 @@ import { ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useCardStore } from "./cardStore.ts";
 const store = useCardStore();
-const { player, playerList, blackCard, whiteVoteMap, winnerList, voteStatus } =
-  storeToRefs(store);
-const timer = 50; // 倒计时
-const lastTime = ref(timer);
-// const btnStatus = ref<"load" | "ok" | "abandon" | "finsh">("load"); // 投票状态
-// const warpStatus = ref<"come" | "out">("come"); // 展示投票窗口
-// const blackCard = ref("如果在课堂上_的话学校生活就结束了"); // 黑卡
-
-const cardStatus = () => {
-  // winnerList
-};
+const {
+  player,
+  playerList,
+  timer: lastTime,
+  blackCard,
+  whiteVoteMap,
+  winnerList,
+  voteStatus,
+} = storeToRefs(store);
 
 const cardChoose = ref(""); // 投票给谁
 onMounted(() => {
@@ -28,7 +26,6 @@ onMounted(() => {
       store.send(data);
       return;
     }
-    lastTime.value = lastTime.value - 1;
   }, 1000);
 });
 const chooseCard = (user) => {
